@@ -16,20 +16,20 @@ export type BrandSettings = {
   payment: {
     bankTransfer: {
       enabled: boolean;
-      percentage: number;       // Ej: 80% = 0.8
+      percentage: number;       
     };
     coupon: {
       enabled: boolean;
-      percentage: number;       // Ej: 100% = 1.0
+      percentage: number;       
     };
   };
   
   // Configuración de procesamiento del producto
   processing: {
-    type: ProcessingType;           // Usando el tipo global
+    type: ProcessingType;       
     additionalCosts: {
-      fixed?: number;           // Costo fijo (ej: lavado $10.000)
-      variable?: boolean;       // Costo variable (ej: tintorería)
+      fixed?: number;           // Costo fijo 
+      variable?: boolean;       // Costo variable 
       description?: string;     // Descripción del costo adicional
     };
   };

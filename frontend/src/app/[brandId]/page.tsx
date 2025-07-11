@@ -1,41 +1,9 @@
-// /app/[brandId]/page.tsx
 "use client";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-
-interface BrandSettings {
-  brandId: string;
-  shipping: {
-    homePickup: boolean;
-    blueExpress: boolean;
-  };
-  payment: {
-    bankTransfer: {
-      enabled: boolean;
-      percentage: number;
-    };
-    coupon: {
-      enabled: boolean;
-      percentage: number;
-    };
-  };
-  processing: {
-    type: 'direct' | 'workshop' | 'washing';
-    additionalCosts: {
-      fixed?: number;
-      variable?: boolean;
-      description?: string;
-    };
-  };
-}
-
-interface Brand {
-  id: string;
-  name: string;
-  url: string;
-  settings: BrandSettings;
-}
+import { Brand } from "../../../../backend/src/models/brand";
+import { BrandSettings } from "../../../../backend/src/models/brand-setting";
 
 export default function BrandFAQPage() {
   const params = useParams();
@@ -211,7 +179,7 @@ export default function BrandFAQPage() {
             } overflow-hidden`}>
               <div className="px-6 pb-6">
                 <p className="text-gray-700 leading-relaxed">
-                  {generateShippingAnswer(brand.settings)}
+                  {brand && brand.settings ? generateShippingAnswer(brand.settings) : ""}
                 </p>
               </div>
             </div>
@@ -239,7 +207,7 @@ export default function BrandFAQPage() {
             } overflow-hidden`}>
               <div className="px-6 pb-6">
                 <p className="text-gray-700 leading-relaxed">
-                  {generatePaymentAnswer(brand.settings)}
+                  {brand && brand.settings ? generatePaymentAnswer(brand.settings) : ""}
                 </p>
               </div>
             </div>
@@ -267,14 +235,14 @@ export default function BrandFAQPage() {
             } overflow-hidden`}>
               <div className="px-6 pb-6">
                 <p className="text-gray-700 leading-relaxed">
-                  {generateAdditionalCostsAnswer(brand.settings)}
+                   {brand && brand.settings ? generateAdditionalCostsAnswer(brand.settings) : ""}
                 </p>
               </div>
             </div>
           </div>
 
           {/* Pregunta 5 - Solo si tiene cupones habilitados */}
-          {brand.settings.payment.coupon.enabled && (
+          {brand && brand.settings && brand.settings.payment.coupon.enabled && (
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
               <button
                 onClick={() => toggleQuestion(5)}
